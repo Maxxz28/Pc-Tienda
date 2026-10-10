@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "title": "Logitech G203",
+    "price": 35000,
+    "category": "perifericos",
+    "description": "Mouse ergonómico de alta precisión.",
+    "image": "/img/perifericos/mouse/1.webp",
+    "stock": 5,
+    "subcategory": null
+  },
+  {
+    "id": 2,
+    "title": "Logitech G502",
+    "price": 85000,
+    "category": "perifericos",
+    "description": "Mouse gaming de alta comodidad y precición para mas exigentes.",
+    "image": "/img/perifericos/mouse/2.webp",
+    "stock": 11,
+    "subcategory": null
+  },
+  {
+    "id": 3,
+    "title": "Logitech G305",
+    "price": 65000,
+    "category": "perifericos",
+    "description": "Ideal para uso de oficina y para gaming.",
+    "image": "/img/perifericos/mouse/3.webp",
+    "stock": 9,
+    "subcategory": null
+  },
+  {
+    "id": 4,
+    "title": "Memoria RAM 8GB 3200MHZ",
+    "price": 30000,
+    "category": "componentes",
+    "description": "Módulo de memoria DDR4 de 8GB 3200mhz.",
+    "image": "/img/componentes/ram/1.jpg",
+    "stock": 3,
+    "subcategory": "ram"
+  },
+  {
+    "id": 5,
+    "title": "Memoria RAM 16GB 2666MHZ",
+    "price": 60000,
+    "category": "componentes",
+    "description": "Módulo de memoria RAM de alto rendimiento.",
+    "image": "/img/componentes/ram/3.jpg",
+    "stock": 10,
+    "subcategory": "ram"
+  },
+  {
+    "id": 6,
+    "title": "Teclado kuruma K552",
+    "price": 70000,
+    "category": "perifericos",
+    "description": "Teclado con switches mecánicos para mejor respuesta.",
+    "image": "/img/perifericos/teclado/1.webp",
+    "stock": 10,
+    "subcategory": "teclados"
+  },
+  {
+    "id": 7,
+    "title": "Teclado redragon K512",
+    "price": 45000,
+    "category": "perifericos",
+    "description": "Teclado silencioso ideal para trabajar.",
+    "image": "/img/perifericos/teclado/2.webp",
+    "stock": 4,
+    "subcategory": "teclados"
+  },
+  {
+    "id": 8,
+    "title": "Teclado redragon K617",
+    "price": 65000,
+    "category": "perifericos",
+    "description": "Teclado inalambrico compacto",
+    "image": "/img/perifericos/teclado/3.webp",
+    "stock": 12,
+    "subcategory": "teclados"
+  },
+  {
+    "id": 9,
+    "title": "Disco Sólido SSD 1TB",
+    "price": 90000,
+    "category": "componentes",
+    "description": "Disco SSD de alta velocidad para sistema y juegos.",
+    "image": "/img/componentes/disco/1.jpg",
+    "stock": 15,
+    "subcategory": "almacenamiento"
+  },
+  {
+    "id": 10,
+    "title": "Disco Duro HDD 2TB",
+    "price": 80000,
+    "category": "componentes",
+    "description": "Almacenamiento masivo para tus archivos.",
+    "image": "/img/componentes/disco/2.jpg",
+    "stock": 8,
+    "subcategory": "almacenamiento"
+  },
+  {
+    "id": 11,
+    "title": "Disco SSD M.2 NVMe 500GB",
+    "price": 60000,
+    "category": "componentes",
+    "description": "Rendimiento extremo con tecnología NVMe.",
+    "image": "/img/componentes/disco/3.jpg",
+    "stock": 12,
+    "subcategory": "almacenamiento"
+  },
+  {
+    "id": 12,
+    "title": "Disco SSD M.2 1TB Gen4",
+    "price": 140000,
+    "category": "componentes",
+    "description": "Máxima velocidad para consolas y PC.",
+    "image": "/img/componentes/disco/4.jpg",
+    "stock": 5,
+    "subcategory": "almacenamiento"
+  },
+  {
+    "id": 13,
+    "title": "Fuente de Poder 600W 80 Plus",
+    "price": 85000,
+    "category": "componentes",
+    "description": "Energía confiable para tu setup.",
+    "image": "/img/componentes/fuente/1.jpg",
+    "stock": 7,
+    "subcategory": "fuentes"
+  },
+  {
+    "id": 14,
+    "title": "Fuente de Poder 750W Gold",
+    "price": 150000,
+    "category": "componentes",
+    "description": "Fuente modular de alta eficiencia energética.",
+    "image": "/img/componentes/fuente/2.jpg",
+    "stock": 4,
+    "subcategory": "fuentes"
+  },
+  {
+    "id": 15,
+    "title": "Memoria RAM Adata XPG 8GB RGB",
+    "price": 38000,
+    "category": "componentes",
+    "description": "Memoria con iluminación RGB y excelente disipación.",
+    "image": "/img/componentes/ram/compragamer_Imganen_general_40362_Memoria_Adata_DDR4_8GB_3200MHz_XPG_Spectrix_D35G_RGB_Black_CL16_f66378c6-grn.jpg",
+    "stock": 10,
+    "subcategory": "ram"
+  },
+  {
+    "id": 16,
+    "title": "Monitor Gaming 24 144Hz",
+    "price": 350000,
+    "category": "monitores",
+    "description": "Monitor fluido ideal para esports.",
+    "image": "/img/monitor/1.jpg",
+    "stock": 5,
+    "subcategory": null
+  },
+  {
+    "id": 17,
+    "title": "Monitor 27 IPS 75Hz",
+    "price": 280000,
+    "category": "monitores",
+    "description": "Colores vibrantes para trabajo y juegos casuales.",
+    "image": "/img/monitor/2.webp",
+    "stock": 3,
+    "subcategory": null
+  },
+  {
+    "id": 18,
+    "title": "Monitor Curvo 32 165Hz",
+    "price": 550000,
+    "category": "monitores",
+    "description": "Inmersión total con curvatura 1500R.",
+    "image": "/img/monitor/3.webp",
+    "stock": 2,
+    "subcategory": null
+  },
+  {
+    "id": 19,
+    "title": "Auriculares Inalámbricos Gamer",
+    "price": 120000,
+    "category": "perifericos",
+    "description": "Comodidad sin cables con batería de larga duración.",
+    "image": "/img/perifericos/auriculares/1.webp",
+    "stock": 6,
+    "subcategory": "auriculares"
+  },
+  {
+    "id": 20,
+    "title": "Auriculares 7.1 con Micrófono",
+    "price": 80000,
+    "category": "perifericos",
+    "description": "Sonido envolvente para localizar al enemigo.",
+    "image": "/img/perifericos/auriculares/2.webp",
+    "stock": 8,
+    "subcategory": "auriculares"
+  }
+]

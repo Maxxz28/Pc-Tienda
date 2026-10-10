@@ -1,0 +1,47 @@
+.item-count-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 250px;
+}
+
+.item-count-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-color);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  padding: 0.2rem;
+}
+
+.item-count-controls button {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.item-count-controls button:hover:not(:disabled) {
+  background-color: var(--border-color);
+}
+
+.item-count-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.item-count-number {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+.add-to-cart-btn {
+  width: 100%;
+}

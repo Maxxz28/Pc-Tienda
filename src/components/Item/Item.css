@@ -1,0 +1,80 @@
+.item-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow);
+}
+
+.item-image {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  padding: 1rem;
+  background-color: white; /* Keep white for product images */
+}
+
+.item-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.item-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color);
+}
+
+.item-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--price-color);
+  margin: 0 0 1rem 0;
+}
+
+.item-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.item-button {
+  flex: 1;
+  display: inline-block;
+  background-color: var(--btn-primary);
+  color: white;
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 1px solid var(--btn-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.item-button:hover {
+  background-color: var(--btn-primary-hover);
+  border-color: var(--btn-primary-hover);
+}
+
+.item-button-add {
+  background-color: transparent;
+  color: var(--btn-primary);
+  border: 1px solid var(--btn-primary);
+}
+
+.item-button-add:hover {
+  background-color: var(--btn-primary);
+  color: white;
+}
