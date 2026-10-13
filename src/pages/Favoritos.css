@@ -1,0 +1,98 @@
+.favoritos-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.favoritos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.favoritos-title-group h2 {
+  font-size: 2rem;
+  color: var(--text-color);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.favoritos-header-icon {
+  fill: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.favoritos-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0.3rem 0 0 0;
+}
+
+.btn-clear-favorites {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: transparent;
+  color: var(--btn-danger);
+  border: 1px solid var(--btn-danger);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-clear-favorites:hover {
+  background-color: var(--btn-danger);
+  color: white;
+}
+
+.favoritos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.favoritos-empty {
+  text-align: center;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 4rem 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: var(--card-shadow);
+}
+
+.empty-icon-wrap {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: rgba(245, 158, 11, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  color: var(--accent-color);
+}
+
+.favoritos-empty h3 {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin: 0 0 0.8rem 0;
+}
+
+.favoritos-empty p {
+  color: var(--text-muted);
+  max-width: 420px;
+  margin: 0 auto 2rem auto;
+  line-height: 1.6;
+}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Truck, ShieldCheck, Clock, ChevronLeft, ChevronRight, Monitor, Cpu, Mouse, Mail } from 'lucide-react';
 import Item from '../components/Item/Item';
 import Swal from 'sweetalert2';
+import { applyProductOverrides } from '../utils/getProducts';
 import './Home.css';
 
 const slides = [
@@ -35,6 +36,37 @@ const slides = [
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    const email = newsletterEmail.trim();
+    if (!email) return;
+
+    const subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers')) || [];
+    if (subscribers.includes(email)) {
+      Swal.fire({
+        icon: 'info',
+        title: '¡Ya estás suscrito!',
+        text: 'Este correo ya se encuentra en nuestra lista de novedades.',
+        background: 'var(--card-bg)',
+        color: 'var(--text-color)',
+        confirmButtonColor: 'var(--btn-primary)'
+      });
+    } else {
+      subscribers.push(email);
+      localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
+      Swal.fire({
+        icon: 'success',
+        title: '¡Suscrito con éxito!',
+        text: 'A partir de ahora recibirás nuestras mejores ofertas.',
+        background: 'var(--card-bg)',
+        color: 'var(--text-color)',
+        confirmButtonColor: 'var(--btn-primary)'
+      });
+      setNewsletterEmail('');
+    }
+  };
 
   useEffect(() => {
     // Slider timer
@@ -47,24 +79,12 @@ const Home = () => {
       try {
         const response = await fetch('/productos.json');
         const data = await response.json();
-        
-        const customProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
-        const deletedProducts = JSON.parse(localStorage.getItem('deletedProducts')) || [];
-        const modifiedStock = JSON.parse(localStorage.getItem('modifiedStock')) || {};
-        const modifiedPrice = JSON.parse(localStorage.getItem('modifiedPrice')) || {};
-
-        let allProducts = [...data, ...customProducts]
-          .filter(p => !deletedProducts.includes(p.id))
-          .map(p => ({
-            ...p,
-            stock: modifiedStock[p.id] !== undefined ? modifiedStock[p.id] : p.stock,
-            price: modifiedPrice[p.id] !== undefined ? modifiedPrice[p.id] : p.price
-          }));
-        
+        const allProducts = applyProductOverrides(data);
         const featured = allProducts.slice(0, 4); 
         setFeaturedProducts(featured);
-      } catch (error) {
-        console.error("Error cargando destacados:", error);
+      } catch {
+        // Fallback silencioso para producción
+        setFeaturedProducts([]);
       }
     };
 
@@ -187,40 +207,14 @@ const Home = () => {
           <Mail size={40} className="newsletter-icon" />
           <h2>Únete a nuestro Boletín</h2>
           <p>Recibe cupones de descuento, noticias de hardware y promociones exclusivas antes que nadie.</p>
-          <form 
-            className="newsletter-form" 
-            onSubmit={(e) => { 
-              e.preventDefault(); 
-              
-              const emailInput = e.target.elements[0].value;
-              const subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers')) || [];
-              
-              if (subscribers.includes(emailInput)) {
-                Swal.fire({
-                  icon: 'info',
-                  title: '¡Ya estás suscrito!',
-                  text: 'Este correo ya se encuentra en nuestra lista de novedades.',
-                  background: 'var(--card-bg)',
-                  color: 'var(--text-color)',
-                  confirmButtonColor: 'var(--btn-primary)'
-                });
-              } else {
-                subscribers.push(emailInput);
-                localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
-                
-                Swal.fire({
-                  icon: 'success',
-                  title: '¡Suscrito con éxito!',
-                  text: 'A partir de ahora recibirás nuestras mejores ofertas.',
-                  background: 'var(--card-bg)',
-                  color: 'var(--text-color)',
-                  confirmButtonColor: 'var(--btn-primary)'
-                });
-                e.target.reset(); // Limpia el input
-              }
-            }}
-          >
-            <input type="email" placeholder="Tu correo electrónico..." required />
+          <form className="newsletter-form" onSubmit={handleNewsletterSubmit}>
+            <input 
+              type="email" 
+              placeholder="Tu correo electrónico..." 
+              value={newsletterEmail}
+              onChange={(e) => setNewsletterEmail(e.target.value)}
+              required 
+            />
             <button type="submit" className="btn btn-primary">Suscribirme</button>
           </form>
         </div>

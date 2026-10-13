@@ -1,21 +1,15 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 
 const Profile = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    if (user) {
-      const savedOrders = JSON.parse(localStorage.getItem(`orders_${user.email}`)) || [];
-      // Ordenar por fecha, más recientes primero
-      savedOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
-      setOrders(savedOrders);
-    }
-  }, [user]);
+  const orders = user
+    ? (JSON.parse(localStorage.getItem(`orders_${user.email}`)) || [])
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+    : [];
 
   const handleLogout = () => {
     logout();
@@ -51,7 +45,7 @@ const Profile = () => {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
                   {order.items.map((item, index) => (
-                    <div key={index} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-color)' }}>
+                    <div key={`${order.id}-${item.id || index}`} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-color)' }}>
                       <span>{item.quantity}x {item.title}</span>
                       <span>${item.price * item.quantity}</span>
                     </div>

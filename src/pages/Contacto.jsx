@@ -23,23 +23,17 @@ const Contacto = () => {
     setIsSubmitting(true);
 
     try {
-      //Aca tengo que poner el link de contacto
       const formspreeUrl = "https://formspree.io/f/xppqdlgg"; 
 
-      if (formspreeUrl) {
-        const response = await fetch(formspreeUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        });
+      const response = await fetch(formspreeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
 
-        if (!response.ok) throw new Error('Error al enviar');
-      } else {
-        // Si no hay URL, solo simulamos un delay de 1 segundo
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
+      if (!response.ok) throw new Error('Error al enviar');
 
       Swal.fire({
         icon: 'success',
@@ -50,7 +44,7 @@ const Contacto = () => {
         confirmButtonColor: 'var(--btn-primary)'
       });
       setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
+    } catch {
       Swal.fire({
         icon: 'error',
         title: 'Hubo un problema',

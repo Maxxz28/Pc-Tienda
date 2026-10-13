@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Trash2, Edit3, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { applyProductOverrides } from '../utils/getProducts';
 import './Admin.css';
 
 const Admin = () => {
@@ -10,6 +11,7 @@ const Admin = () => {
   const navigate = useNavigate();
 
   // Add Product State
+  const [customId, setCustomId] = useState('');
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('perifericos');
@@ -33,38 +35,18 @@ const Admin = () => {
       try {
         const response = await fetch('/productos.json');
         const data = await response.json();
-        
         const customProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
-        const deletedProducts = JSON.parse(localStorage.getItem('deletedProducts')) || [];
-        const modifiedStock = JSON.parse(localStorage.getItem('modifiedStock')) || {};
-        const modifiedPrice = JSON.parse(localStorage.getItem('modifiedPrice')) || {};
-
-        let combined = [...data, ...customProducts]
-          .filter(p => !deletedProducts.includes(p.id))
-          .map(p => ({
-            ...p,
-            stock: modifiedStock[p.id] !== undefined ? modifiedStock[p.id] : p.stock,
-            price: modifiedPrice[p.id] !== undefined ? modifiedPrice[p.id] : p.price,
-            isCustom: customProducts.some(cp => cp.id === p.id)
-          }));
-        
+        const combined = applyProductOverrides(data).map(p => ({
+          ...p,
+          isCustom: customProducts.some(cp => cp.id === p.id)
+        }));
         setAllProducts(combined);
-      } catch (error) {
-        console.error("Error al cargar productos para admin", error);
+      } catch {
+        setAllProducts([]);
       }
     };
     fetchAllProducts();
   }, [refreshTrigger]);
-
-  if (!isAuthenticated || user?.role !== 'admin') {
-    return (
-      <div className="admin-container" style={{ textAlign: 'center', padding: '4rem' }}>
-        <h2>Acceso Denegado</h2>
-        <p style={{ color: 'var(--text-muted)' }}>Solo los administradores pueden acceder a este panel.</p>
-        <button onClick={() => navigate('/')} className="btn btn-primary" style={{ marginTop: '1rem' }}>Volver al Inicio</button>
-      </div>
-    );
-  }
 
   // Handle Image Upload
   const handleImageChange = (e) => {
@@ -98,7 +80,25 @@ const Admin = () => {
       Swal.fire({
         icon: 'error',
         title: 'Faltan datos',
-        text: 'Por favor, completa todos los campos y sube una imagen.',
+        text: 'Por favor, completa todos los campos requeridos y sube una imagen.',
+        background: 'var(--card-bg)',
+        color: 'var(--text-color)',
+        confirmButtonColor: 'var(--btn-primary)'
+      });
+      return;
+    }
+
+    // Determinar ID: si el usuario ingresó uno, usarlo; sino generar con Date.now()
+    const trimmedId = customId.trim();
+    let finalId = trimmedId ? (!isNaN(Number(trimmedId)) ? Number(trimmedId) : trimmedId) : Date.now();
+
+    // Validar que no exista ya un producto con ese ID
+    const idExists = allProducts.some(p => String(p.id) === String(finalId));
+    if (idExists) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'ID Duplicado',
+        text: `Ya existe un producto con el ID "${finalId}". Ingresa otro ID o déjalo vacío para autogenerar.`,
         background: 'var(--card-bg)',
         color: 'var(--text-color)',
         confirmButtonColor: 'var(--btn-primary)'
@@ -107,7 +107,7 @@ const Admin = () => {
     }
 
     const newProduct = {
-      id: Date.now(),
+      id: finalId,
       title,
       price: Number(price),
       category,
@@ -124,19 +124,19 @@ const Admin = () => {
       Swal.fire({
         icon: 'success',
         title: '¡Producto Agregado!',
-        text: `El producto "${title}" ha sido publicado.`,
+        text: `El producto "${title}" (ID: ${finalId}) ha sido publicado.`,
         background: 'var(--card-bg)',
         color: 'var(--text-color)',
         confirmButtonColor: 'var(--btn-primary)'
       });
 
-      setTitle(''); setPrice(''); setCategory('perifericos');
+      setCustomId(''); setTitle(''); setPrice(''); setCategory('perifericos');
       setDescription(''); setImage(''); setStock('');
       if (fileInputRef.current) fileInputRef.current.value = '';
       
       setRefreshTrigger(prev => prev + 1);
 
-    } catch (error) {
+    } catch {
       Swal.fire({
         icon: 'error',
         title: 'Error de Almacenamiento',
@@ -155,7 +155,7 @@ const Admin = () => {
       text: `Estás a punto de eliminar "${productTitle}".`,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#dc2626',
+      confirmButtonColor: 'var(--btn-danger)',
       cancelButtonColor: 'var(--btn-primary)',
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
@@ -173,6 +173,11 @@ const Admin = () => {
           localStorage.setItem('deletedProducts', JSON.stringify(deletedProducts));
         }
         
+        // Si borramos el único item de una página mayor a 1, retroceder de página
+        if (currentItems.length === 1 && currentPage > 1) {
+          setCurrentPage(prev => prev - 1);
+        }
+
         setRefreshTrigger(prev => prev + 1);
         Swal.fire({
           title: 'Eliminado',
@@ -205,12 +210,17 @@ const Admin = () => {
       color: 'var(--text-color)',
       confirmButtonColor: 'var(--btn-primary)',
       preConfirm: () => {
-        const newPrice = document.getElementById('swal-price').value;
-        const newStock = document.getElementById('swal-stock').value;
-        if (!newPrice || !newStock || newPrice < 0 || newStock < 0) {
-          Swal.showValidationMessage('Por favor ingresa valores válidos (mayores a 0)');
+        const rawPrice = document.getElementById('swal-price').value.trim();
+        const rawStock = document.getElementById('swal-stock').value.trim();
+        const numPrice = Number(rawPrice);
+        const numStock = Number(rawStock);
+
+        if (rawPrice === '' || isNaN(numPrice) || numPrice < 0 ||
+            rawStock === '' || isNaN(numStock) || numStock < 0) {
+          Swal.showValidationMessage('Por favor ingresa números válidos (0 o mayores)');
+          return false;
         }
-        return { newPrice: Number(newPrice), newStock: Number(newStock) };
+        return { newPrice: numPrice, newStock: numStock };
       }
     });
 
@@ -254,10 +264,15 @@ const Admin = () => {
   const nextPage = () => setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev));
   const prevPage = () => setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));
 
-  // Reset page when searching
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
+  if (!isAuthenticated || user?.role !== 'admin') {
+    return (
+      <div className="admin-container" style={{ textAlign: 'center', padding: '4rem' }}>
+        <h2>Acceso Denegado</h2>
+        <p style={{ color: 'var(--text-muted)' }}>Solo los administradores pueden acceder a este panel.</p>
+        <button onClick={() => navigate('/')} className="btn btn-primary" style={{ marginTop: '1rem' }}>Volver al Inicio</button>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-container">
@@ -270,6 +285,27 @@ const Admin = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="admin-form">
+          <div className="form-row">
+            <div className="form-group half">
+              <label htmlFor="customId">ID del Producto (Opcional)</label>
+              <input 
+                type="text" 
+                id="customId" 
+                value={customId} 
+                onChange={(e) => setCustomId(e.target.value)} 
+                placeholder="Ej: 101 (o vacío para autogenerar)"
+              />
+            </div>
+            <div className="form-group half">
+              <label htmlFor="category">Categoría principal</label>
+              <select id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option value="perifericos">Periféricos</option>
+                <option value="componentes">Componentes</option>
+                <option value="monitores">Monitores</option>
+              </select>
+            </div>
+          </div>
+
           <div className="form-group">
             <label htmlFor="title">Nombre del Producto</label>
             <input 
@@ -305,15 +341,6 @@ const Admin = () => {
                 min="0"
               />
             </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="category">Categoría principal</label>
-            <select id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-              <option value="perifericos">Periféricos</option>
-              <option value="componentes">Componentes</option>
-              <option value="monitores">Monitores</option>
-            </select>
           </div>
 
           <div className="form-group">
@@ -370,7 +397,10 @@ const Admin = () => {
               type="text" 
               placeholder="Buscar producto..." 
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
               style={{ border: 'none', background: 'transparent', color: 'var(--text-color)', width: '100%', outline: 'none' }}
             />
           </div>

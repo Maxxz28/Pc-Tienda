@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import CartWidget from './CartWidget';
+import FavoritesWidget from './FavoritesWidget';
 import { ThemeContext } from '../../context/ThemeContext';
 import { AuthContext } from '../../context/AuthContext';
 import { Moon, Sun, User, Search } from 'lucide-react';
@@ -28,7 +29,7 @@ const Navbar = () => {
         </Link>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <NavLink to="/" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Inicio</NavLink>
+            <NavLink to="/" end className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Inicio</NavLink>
           </li>
           <li className="nav-item">
             <NavLink to="/productos" className={({isActive}) => isActive ? "nav-link active" : "nav-link"}>Productos</NavLink>
@@ -61,6 +62,8 @@ const Navbar = () => {
               {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
             </button>
             
+            <FavoritesWidget />
+
             <CartWidget />
 
             {isAuthenticated ? (

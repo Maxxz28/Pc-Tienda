@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
@@ -13,6 +14,7 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
+  // Fix: use functional updater (prev =>) to avoid stale closure bugs
   const addToCart = (product, quantity) => {
     const itemInCart = cart.find(item => item.id === product.id);
     const currentQuantity = itemInCart ? itemInCart.quantity : 0;
@@ -23,23 +25,25 @@ export const CartProvider = ({ children }) => {
     }
 
     if (itemInCart) {
-      setCart(cart.map(item => 
+      setCart(prev => prev.map(item =>
         item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
       ));
     } else {
-      setCart([...cart, { ...product, quantity }]);
+      setCart(prev => [...prev, { ...product, quantity }]);
     }
-    
+
     toast.success(`Agregaste ${product.title} al carrito`);
     return true;
   };
 
+  // Fix: use functional updater to avoid stale closure bugs
   const removeFromCart = (id) => {
-    setCart(cart.filter(item => item.id !== id));
+    setCart(prev => prev.filter(item => item.id !== id));
   };
 
   const clearCart = () => setCart([]);
 
+  // Fix: was defined but never exported — now exposed in context value
   const isInCart = (id) => {
     return cart.some(item => item.id === id);
   };
@@ -58,6 +62,7 @@ export const CartProvider = ({ children }) => {
       addToCart,
       removeFromCart,
       clearCart,
+      isInCart,
       totalQuantity,
       totalPrice
     }}>

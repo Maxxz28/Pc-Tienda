@@ -2,7 +2,35 @@ import { useState, useEffect } from 'react';
 import { useParams, NavLink, Link, useSearchParams } from 'react-router-dom';
 import { ChevronRight, ChevronDown } from 'lucide-react';
 import Item from '../Item/Item';
+import { applyProductOverrides } from '../../utils/getProducts';
 import './ItemListContainer.css';
+
+// Categorías estructuradas constantes
+const CATEGORIES = [
+  { 
+    id: 'componentes', 
+    name: 'Componentes',
+    sub: [
+      { id: 'fuentes', name: 'Fuentes de Poder' },
+      { id: 'ram', name: 'Memorias RAM' },
+      { id: 'almacenamiento', name: 'Discos y SSD' }
+    ]
+  },
+  { 
+    id: 'perifericos', 
+    name: 'Periféricos',
+    sub: [
+      { id: 'mouse', name: 'Mouses' },
+      { id: 'teclados', name: 'Teclados' },
+      { id: 'auriculares', name: 'Auriculares' }
+    ]
+  },
+  { 
+    id: 'monitores', 
+    name: 'Monitores',
+    sub: []
+  }
+];
 
 const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
@@ -15,33 +43,6 @@ const ItemListContainer = () => {
   const searchTerm = searchParams.get('search');
   const subCategory = searchParams.get('sub');
 
-  // Categorías estructuradas
-  const categories = [
-    { 
-      id: 'componentes', 
-      name: 'Componentes',
-      sub: [
-        { id: 'fuentes', name: 'Fuentes de Poder' },
-        { id: 'ram', name: 'Memorias RAM' },
-        { id: 'almacenamiento', name: 'Discos y SSD' }
-      ]
-    },
-    { 
-      id: 'perifericos', 
-      name: 'Periféricos',
-      sub: [
-        { id: 'mouse', name: 'Mouses' },
-        { id: 'teclados', name: 'Teclados' },
-        { id: 'auriculares', name: 'Auriculares' }
-      ]
-    },
-    { 
-      id: 'monitores', 
-      name: 'Monitores',
-      sub: []
-    }
-  ];
-
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -51,20 +52,7 @@ const ItemListContainer = () => {
           throw new Error('Error al cargar los productos');
         }
         const data = await response.json();
-        
-        const customProducts = JSON.parse(localStorage.getItem('customProducts')) || [];
-        const deletedProducts = JSON.parse(localStorage.getItem('deletedProducts')) || [];
-        const modifiedStock = JSON.parse(localStorage.getItem('modifiedStock')) || {};
-        const modifiedPrice = JSON.parse(localStorage.getItem('modifiedPrice')) || {};
-
-        let allProducts = [...data, ...customProducts]
-          .filter(p => !deletedProducts.includes(p.id))
-          .map(p => ({
-            ...p,
-            stock: modifiedStock[p.id] !== undefined ? modifiedStock[p.id] : p.stock,
-            price: modifiedPrice[p.id] !== undefined ? modifiedPrice[p.id] : p.price
-          }));
-        
+        const allProducts = applyProductOverrides(data);
         let filtered = allProducts;
         
         if (categoryId) {
@@ -102,11 +90,11 @@ const ItemListContainer = () => {
 
   let title = 'Destacados';
   if (subCategory) {
-    const cat = categories.find(c => c.id === categoryId);
+    const cat = CATEGORIES.find(c => c.id === categoryId);
     const sub = cat?.sub?.find(s => s.id === subCategory);
     title = sub ? sub.name : subCategory;
   } else if (categoryId) {
-    const cat = categories.find(c => c.id === categoryId);
+    const cat = CATEGORIES.find(c => c.id === categoryId);
     title = cat ? cat.name : categoryId;
   } else if (searchTerm) {
     title = `Búsqueda: "${searchTerm}"`;
@@ -129,7 +117,7 @@ const ItemListContainer = () => {
               </NavLink>
             </li>
             
-            {categories.map(cat => {
+            {CATEGORIES.map(cat => {
               const isCatActive = categoryId === cat.id;
               
               return (
@@ -187,7 +175,7 @@ const ItemListContainer = () => {
             Cargando productos...
           </div>
         ) : error ? (
-          <div className="error" style={{ textAlign: 'center', color: 'red' }}>{error}</div>
+          <div className="error" style={{ textAlign: 'center', color: 'var(--btn-danger)' }}>{error}</div>
         ) : products.length === 0 ? (
           <div className="no-products">
             <p>No se encontraron productos en esta categoría.</p>

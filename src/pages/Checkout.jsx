@@ -41,7 +41,7 @@ const Checkout = () => {
     }
     
     // Generar un ID de orden aleatorio
-    const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const orderId = 'ORD-' + Math.random().toString(36).substring(2, 11).toUpperCase();
 
     // Guardar orden
     const newOrder = {
@@ -70,6 +70,26 @@ const Checkout = () => {
     });
   };
 
+  const handleLogoutConfirm = () => {
+    Swal.fire({
+      title: '¿Cerrar sesión?',
+      text: 'Se interrumpirá el proceso de compra.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: 'var(--btn-danger)',
+      cancelButtonColor: 'var(--btn-primary)',
+      confirmButtonText: 'Sí, salir',
+      cancelButtonText: 'Continuar compra',
+      background: 'var(--card-bg)',
+      color: 'var(--text-color)'
+    }).then((res) => {
+      if (res.isConfirmed) {
+        logout();
+        navigate('/login');
+      }
+    });
+  };
+
   if (cart.length === 0) {
     return (
       <div className="checkout-container" style={{ maxWidth: '600px' }}>
@@ -78,7 +98,7 @@ const Checkout = () => {
           <p style={{ color: 'var(--text-color)', marginBottom: '1.5rem' }}>No tienes productos en tu carrito para pagar.</p>
           <Link to="/productos" className="btn btn-primary">Ir al catálogo</Link>
           <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: '1.5rem' }}>
-            <button className="btn btn-danger" onClick={logout} style={{ padding: '0.5rem 1rem' }}>Cerrar Sesión</button>
+            <button className="btn btn-danger" onClick={handleLogoutConfirm} style={{ padding: '0.5rem 1rem' }}>Cerrar Sesión</button>
           </div>
         </div>
       </div>
@@ -92,29 +112,29 @@ const Checkout = () => {
         <h2>Datos de Facturación</h2>
         <div className="user-info-badge">
           <span>Logueado como: <strong>{user?.name}</strong></span>
-          <button onClick={logout} style={{ background: 'none', border: 'none', color: 'var(--btn-danger)', cursor: 'pointer', fontWeight: 'bold' }}>Salir</button>
+          <button onClick={handleLogoutConfirm} style={{ background: 'none', border: 'none', color: 'var(--btn-danger)', cursor: 'pointer', fontWeight: 'bold' }}>Salir</button>
         </div>
         
         <form onSubmit={handleComprar} className="checkout-form">
           <div className="form-group">
-            <label>Nombre</label>
-            <input type="text" name="nombre" value={formData.nombre} onChange={handleInputChange} placeholder="Tu nombre" />
+            <label htmlFor="checkout-nombre">Nombre</label>
+            <input id="checkout-nombre" type="text" name="nombre" value={formData.nombre} onChange={handleInputChange} placeholder="Tu nombre" />
           </div>
           <div className="form-group">
-            <label>Apellido</label>
-            <input type="text" name="apellido" value={formData.apellido} onChange={handleInputChange} placeholder="Tu apellido" />
+            <label htmlFor="checkout-apellido">Apellido</label>
+            <input id="checkout-apellido" type="text" name="apellido" value={formData.apellido} onChange={handleInputChange} placeholder="Tu apellido" />
           </div>
           <div className="form-group">
-            <label>Teléfono</label>
-            <input type="tel" name="telefono" value={formData.telefono} onChange={handleInputChange} placeholder="Ej: 11 1234-5678" />
+            <label htmlFor="checkout-telefono">Teléfono</label>
+            <input id="checkout-telefono" type="tel" name="telefono" value={formData.telefono} onChange={handleInputChange} placeholder="Ej: 11 1234-5678" />
           </div>
           <div className="form-group">
-            <label>Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="correo@ejemplo.com" />
+            <label htmlFor="checkout-email">Email</label>
+            <input id="checkout-email" type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="correo@ejemplo.com" />
           </div>
           <div className="form-group">
-            <label>Confirmar Email</label>
-            <input type="email" name="confirmEmail" value={formData.confirmEmail} onChange={handleInputChange} placeholder="correo@ejemplo.com" />
+            <label htmlFor="checkout-confirmEmail">Confirmar Email</label>
+            <input id="checkout-confirmEmail" type="email" name="confirmEmail" value={formData.confirmEmail} onChange={handleInputChange} placeholder="correo@ejemplo.com" />
           </div>
           
           {error && <p className="form-error">{error}</p>}

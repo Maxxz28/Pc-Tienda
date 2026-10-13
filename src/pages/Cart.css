@@ -31,7 +31,7 @@
 .cart-item img {
   width: 100px;
   height: 100px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   background-color: white;
 }
@@ -90,11 +90,6 @@
 .cart-actions {
   display: flex;
   gap: 1rem;
-}
-
-.btn-danger {
-  background-color: var(--btn-danger);
-  color: white;
 }
 
 @media (max-width: 768px) {
