@@ -1,16 +1,62 @@
-# React + Vite
+# PC-Tienda - E-Commerce de Hardware y Periféricos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyecto final de E-commerce desarrollado con **React**, **Vite** y **React Router**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Características Principales
 
-## React Compiler
+- **Catálogo Dinámico:** Filtrado en cascada por categorías (Periféricos, Componentes, Monitores) y subcategorías (RAM, Fuentes, SSD, Mouse, etc.).
+- **Búsqueda en tiempo real y Ordenamiento:** Búsqueda por palabras clave y ordenamiento por menor/mayor precio o relevancia.
+- **Carrito de Compras:** Gestión reactiva de stock, cálculo total y flujo de Checkout con SweetAlert2.
+- **Autenticación y Perfil:**
+  - Registro e Inicio de sesión de usuarios con persistencia local (`localStorage`).
+  - Historial de órdenes de compra asociado a cada cuenta.
+- **Panel de Administración (CRUD de Inventario):**
+  - Carga de nuevos productos con subida de imagen local (FileReader en Base64).
+  - Búsqueda y paginación en la tabla de inventario.
+  - Modificación de precios y control de stock en tiempo real.
+  - Eliminación de productos.
+- **Modo Oscuro / Claro:** Selector de tema con contraste adaptativo.
+- **Formulario de Contacto:** Conexión asíncrona preparada para Formspree / EmailJS.
+- **Boletín / Newsletter:** Suscripción interactiva con validación de correos duplicados.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🔐 Credenciales de Administrador
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Para acceder a las funciones de administración (botón **Panel Admin** en la barra de navegación):
+- **Email:** `admin@admin.com`
+- **Contraseña:** `Admin123!`
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- **React 19**
+- **Vite**
+- **React Router Dom**
+- **Lucide React** (Iconografía)
+- **SweetAlert2** (Notificaciones y modales interactivos)
+- **CSS3 Moderno** (Variables CSS adaptativas, Grid, Flexbox)
+
+---
+
+## 💻 Instalación y Ejecución Local
+
+1. Clonar el repositorio:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   ```
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Iniciar el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+4. Para generar el build de producción:
+   ```bash
+   npm run build
+   ```
