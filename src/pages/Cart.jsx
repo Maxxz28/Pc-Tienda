@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { formatPrice } from '../utils/formatPrice';
 import './Cart.css';
 
 const Cart = () => {
@@ -24,9 +25,9 @@ const Cart = () => {
             <img src={item.image} alt={item.title} />
             <div className="item-details">
               <h3>{item.title}</h3>
-              <p>Precio unitario: ${item.price}</p>
+              <p>Precio unitario: ${formatPrice(item.price)}</p>
               <p>Cantidad: {item.quantity}</p>
-              <p className="item-subtotal">Subtotal: ${item.price * item.quantity}</p>
+              <p className="item-subtotal">Subtotal: ${formatPrice(item.price * item.quantity)}</p>
             </div>
             <button onClick={() => removeFromCart(item.id)} className="btn-remove">
               Eliminar
@@ -35,7 +36,7 @@ const Cart = () => {
         ))}
       </div>
       <div className="cart-summary">
-        <h3>Total a pagar: ${totalPrice()}</h3>
+        <h3>Total a pagar: ${formatPrice(totalPrice())}</h3>
         <div className="cart-actions">
           <button onClick={clearCart} className="btn btn-danger">Vaciar Carrito</button>
           <Link to="/checkout" className="btn btn-success" style={{ textDecoration: 'none' }}>Proceder al pago</Link>

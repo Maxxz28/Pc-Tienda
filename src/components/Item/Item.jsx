@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext';
 import { FavoritesContext } from '../../context/FavoritesContext';
 import { Star, Plus, Minus } from 'lucide-react';
+import { formatPrice } from '../../utils/formatPrice';
 import './Item.css';
 
 const Item = ({ product }) => {
@@ -57,7 +58,7 @@ const Item = ({ product }) => {
           <h3 className="item-title">{product.title}</h3>
         </div>
 
-        <p className="item-price">${product.price}</p>
+        <p className="item-price">${formatPrice(product.price)}</p>
         
         <p className="item-stock-text">
           Stock disponible: <span className={product.stock === 0 ? "out-stock" : ""}>{product.stock}</span>

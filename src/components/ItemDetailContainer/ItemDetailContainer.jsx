@@ -5,6 +5,7 @@ import { ArrowLeft, ChevronRight, ShoppingBag } from 'lucide-react';
 import ItemCount from '../ItemCount/ItemCount';
 import Item from '../Item/Item';
 import { applyProductOverrides } from '../../utils/getProducts';
+import { formatPrice } from '../../utils/formatPrice';
 import './ItemDetailContainer.css';
 
 const ItemDetailContainer = () => {
@@ -87,7 +88,7 @@ const ItemDetailContainer = () => {
         <div className="item-detail-info">
           <h2>{product.title}</h2>
           <p className="category">Categoría: {product.category}</p>
-          <p className="price">${product.price}</p>
+          <p className="price">${formatPrice(product.price)}</p>
           <p className="description">{product.description}</p>
           <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
             Stock disponible: {product.stock}

@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { formatPrice } from '../utils/formatPrice';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -152,13 +153,13 @@ const Checkout = () => {
           {cart.map(item => (
             <div key={item.id} className="summary-item">
               <span className="summary-item-title">{item.quantity}x {item.title}</span>
-              <span>${item.price * item.quantity}</span>
+              <span>${formatPrice(item.price * item.quantity)}</span>
             </div>
           ))}
         </div>
         <div className="summary-total">
           <span>Total a pagar:</span>
-          <span>${totalPrice()}</span>
+          <span>${formatPrice(totalPrice())}</span>
         </div>
         <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center' }}>
           Pagos 100% seguros y encriptados.

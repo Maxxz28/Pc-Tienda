@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Trash2, Edit3, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { applyProductOverrides } from '../utils/getProducts';
+import { formatPrice } from '../utils/formatPrice';
 import './Admin.css';
 
 const Admin = () => {
@@ -428,7 +429,7 @@ const Admin = () => {
                     <br/>
                     <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{product.category}</span>
                   </td>
-                  <td><strong style={{ color: 'var(--btn-primary)' }}>${product.price}</strong></td>
+                  <td><strong style={{ color: 'var(--btn-primary)' }}>${formatPrice(product.price)}</strong></td>
                   <td>
                     <span className={`stock-badge ${product.stock === 0 ? 'out-of-stock' : ''}`}>
                       {product.stock}

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { formatPrice } from '../utils/formatPrice';
 
 const Profile = () => {
   const { user, logout } = useContext(AuthContext);
@@ -47,13 +48,13 @@ const Profile = () => {
                   {order.items.map((item, index) => (
                     <div key={`${order.id}-${item.id || index}`} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: 'var(--text-color)' }}>
                       <span>{item.quantity}x {item.title}</span>
-                      <span>${item.price * item.quantity}</span>
+                      <span>${formatPrice(item.price * item.quantity)}</span>
                     </div>
                   ))}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', color: 'var(--price-color)', fontSize: '1.1rem' }}>
                   <span>Total:</span>
-                  <span>${order.total}</span>
+                  <span>${formatPrice(order.total)}</span>
                 </div>
               </div>
             ))}
