@@ -1,0 +1,95 @@
+:root {
+  --bg-color: #EDE6E3;
+  --text-color: #1C1917;
+  --text-muted: #57534E;
+  --card-bg: #F8F4F2;
+  --navbar-bg: #1C1917;
+  --navbar-text: #F3E8E8;
+  --navbar-text-soft: #A8A29E;
+  --footer-bg: #1C1917;
+  --footer-text: #FAF7F6;
+  --border-color: rgba(60, 20, 20, 0.12);
+  --btn-primary: #DC2626;
+  --btn-primary-hover: #B91C1C;
+  --accent-color: #F59E0B;
+  --btn-danger: #EF4444;
+  --card-shadow: 0 1px 2px rgba(60,20,20,0.10), 0 6px 18px rgba(60,20,20,0.08);
+  --price-color: #1C1917;
+  --success-color: #15803d;
+  --btn-success: #10B981;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0F0A0A;
+  --text-color: #F3E8E8;
+  --text-muted: #A8A29E;
+  --card-bg: #1C1414;
+  --navbar-bg: #1C1414;
+  --navbar-text: #F3E8E8;
+  --navbar-text-soft: #A8A29E;
+  --footer-bg: #080505;
+  --footer-text: #A8A29E;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --btn-primary: #EF4444;
+  --btn-primary-hover: #DC2626;
+  --btn-danger: #EF4444;
+  --accent-color: #FBBF24;
+  --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
+  --price-color: #FBBF24;
+  --success-color: #4ade80;
+  --btn-success: #10B981;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a:focus:not(:focus-visible) { 
+  outline: none; 
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Botones Globales */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn-primary {
+  background-color: var(--btn-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--btn-primary-hover);
+}
+
+.btn-success {
+  background-color: var(--btn-success);
+  color: white;
+}
+
+.btn-danger {
+  background-color: var(--btn-danger);
+  color: white;
+}
